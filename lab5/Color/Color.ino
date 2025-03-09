@@ -53,7 +53,7 @@ void loop() {
     {
       Serial.println("recognized color: green");
     }
-    if (b_filtered > g_filtered && b_filtered > r_filtered)
+    else if (b_filtered > g_filtered && b_filtered > r_filtered)
     {
       Serial.println("recognized color: blue");
     }
