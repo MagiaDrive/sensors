@@ -4,6 +4,7 @@
 #define BLUE_LED A4
 
 int redValue, greenValue, blueValue;
+float r_filtered, g_filtered, b_filtered;
 
 void setup() {
     pinMode(PHOTORESISTOR, INPUT);
@@ -33,15 +34,29 @@ void loop() {
     // Turn off LED before processing
     setColor(LOW, LOW, LOW);
 
-    Serial.print("R: ");
-    Serial.print(redValue);
-    Serial.print(" G: ");
-    Serial.print(greenValue);
-    Serial.print(" B: ");
-    Serial.println(blueValue);
-
+    r_filtered = map(1023 - redValue, 0, 1023, 0, 255);
+    g_filtered = floor(map(1023 - greenValue, 0, 1023, 0, 255) * 1.04);
+    b_filtered = floor(map(1023 - blueValue, 0, 1023, 0, 255) * 1.42);
     
+    Serial.print("R: ");
+    Serial.print(r_filtered);
+    Serial.print(" G: ");
+    Serial.print(g_filtered);
+    Serial.print(" B: ");
+    Serial.println(b_filtered);
 
+    if (r_filtered > g_filtered && r_filtered > b_filtered)
+    {
+      Serial.println("recognized color: red");
+    }
+    else if (g_filtered > r_filtered && g_filtered > b_filtered)
+    {
+      Serial.println("recognized color: green");
+    }
+    if (b_filtered > g_filtered && b_filtered > r_filtered)
+    {
+      Serial.println("recognized color: blue");
+    }
     delay(500);
 }
 
